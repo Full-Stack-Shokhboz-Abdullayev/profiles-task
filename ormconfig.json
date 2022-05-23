@@ -1,0 +1,17 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": "5432",
+  "username": "postgres",
+  "password": "postgres",
+  "database": "profiles_db",
+  "entities": [
+    "D:\\Projects\\profiles-task\\src\\**\\entities\\*.entity.{t,j}s"
+  ],
+  "migrations": [
+    "src/core/migrations/"
+  ],
+  "cli": {
+    "migrationsDir": "src/core/migrations/"
+  }
+}
