@@ -16,7 +16,6 @@ export const generateTypeOrmConfig: (
     password: configService.get('POSTGRES_PASSWORD'),
     database: configService.get('POSTGRES_DB'),
     entities: [join(__dirname, '../../..', '**/entities/*.entity.{t,j}s')],
-    migrations: ['src/core/migrations/'],
     cli: {
       migrationsDir: 'src/core/migrations/',
     },
