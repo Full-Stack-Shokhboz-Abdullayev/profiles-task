@@ -10,6 +10,6 @@ export class ProfilesController {
 
   @Get('list')
   profiles() {
-    return this.profilesService.getProfileList();
+    return this.profilesService.getProfiles();
   }
 }

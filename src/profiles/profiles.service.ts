@@ -9,7 +9,7 @@ export class ProfilesService {
     @InjectRepository(Profile) private ProfileRepository: Repository<Profile>,
   ) {}
 
-  async getProfileList() {
+  async getProfiles() {
     const profilesList = await this.ProfileRepository.query(
       `SELECT * FROM "profiles" 
         ORDER BY 
