@@ -11,23 +11,26 @@ export class ProfilesService {
   ) {}
 
   async getProfiles(sortables?: SortablesEnum[]) {
-    const filters = {
-      folder: 'CASE WHEN "profiles"."folder" IS NULL THEN 1 ELSE 0 END',
-      note: 'CASE WHEN "profiles"."note" IS NULL THEN 1 ELSE 0 END',
-      updated_date: `"profiles"."updated_date" DESC`,
+    const filters: { [key: string]: [string, 'ASC' | 'DESC'] } = {
+      folder: [
+        'CASE WHEN "profiles"."folder" IS NULL THEN 1 ELSE 0 END',
+        'ASC',
+      ],
+      note: ['CASE WHEN "profiles"."note" IS NULL THEN 1 ELSE 0 END', 'ASC'],
+      updated_date: [`"profiles"."updated_date"`, 'DESC'],
     };
 
-    const hydratedColumns = sortables
-      ?.map((sortable) => filters[sortable])
-      .join(', ');
+    const queryBuilder =
+      this.ProfileRepository.createQueryBuilder('profiles').select('*');
 
-    const query = `
-      SELECT * FROM "profiles" 
-        ORDER BY 
-          ${hydratedColumns ? hydratedColumns + ', ' : ''}
-          "profiles"."created_date" DESC;`;
+    sortables?.forEach((sortable) => {
+      const [q, o] = filters[sortable];
+      queryBuilder.addOrderBy(q, o);
+    });
 
-    const profilesList = await this.ProfileRepository.query(query);
+    queryBuilder.addOrderBy('"profiles"."created_date"', 'DESC');
+
+    const profilesList = await queryBuilder.execute();
 
     return profilesList;
   }
